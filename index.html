@@ -2,117 +2,308 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إلى حبوبتي حبيبه ❤️</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>لحبيبتي حبيبه ❤️</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
-    <!-- FontAwesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Reem+Kufi:wght@400;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Custom Stylesheet -->
-    <link rel="stylesheet" href="assets/style.css">
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif'],
+                        kufi: ['Reem Kufi', 'sans-serif'],
+                    },
+                    colors: {
+                        rose: { 50: '#fff1f2', 100: '#ffe4e6', 200: '#fecdd3', 500: '#f43f5e', 600: '#e11d48', 900: '#881337' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Cairo', sans-serif; background-color: #0c0a09; color: #fecdd3; overflow-x: hidden; user-select: none; -webkit-tap-highlight-color: transparent; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #110c11; }
+        ::-webkit-scrollbar-thumb { background: #f43f5e; border-radius: 4px; }
+        .glass-card { background: rgba(20, 15, 25, 0.65); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(244, 63, 94, 0.2); box-shadow: 0 8px 32px 0 rgba(136, 19, 55, 0.25); }
+        .glass-card-hover:hover { border-color: rgba(244, 63, 94, 0.6); box-shadow: 0 12px 40px 0 rgba(244, 63, 94, 0.4); transform: translateY(-4px); }
+        .glow-text { text-shadow: 0 0 20px rgba(244, 63, 94, 0.6), 0 0 40px rgba(225, 29, 72, 0.4); }
+        .glow-box { box-shadow: 0 0 30px rgba(244, 63, 94, 0.4); }
+        @keyframes float { 0%, 100% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-10px) rotate(2deg); } }
+        .animate-float { animation: float 4s ease-in-out infinite; }
+        @keyframes pulse-slow { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.06); opacity: 1; } }
+        .animate-pulse-slow { animation: pulse-slow 2s infinite; }
+        #bg-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; }
+        .love-letter-paper { background: linear-gradient(135deg, #fff5f5 0%, #ffe4e6 100%); color: #4c0519; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+    </style>
 </head>
-<body>
+<body class="relative min-h-screen selection:bg-rose-500 selection:text-white">
 
-    <!-- Background Cinematic Effects -->
-    <div class="space-bg">
-        <div class="stars"></div>
-        <div class="twinkling"></div>
-        <div class="particles-container" id="particlesContainer"></div>
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- عنصر الصوت المحلي (من نفس الفولدر باسم song.mp3) -->
+    <audio id="bg-music" loop preload="auto">
+        <source src="song.mp3" type="audio/mpeg">
+        متصفحك لا يدعم تشغيل الصوت.
+    </audio>
+
+    <!-- زرار التحكم بالصوت العلوي -->
+    <div class="fixed top-4 left-4 z-50">
+        <button id="music-toggle" onclick="toggleMusic()" class="glass-card px-3.5 py-2 rounded-full flex items-center gap-2 text-rose-300 hover:text-white transition duration-300 shadow-lg glow-box">
+            <i id="music-icon" class="fa-solid fa-music text-xs"></i>
+            <span class="text-xs font-semibold tracking-wide" id="music-text">تشغيل الأغنية</span>
+        </button>
     </div>
 
-    <!-- Intro / Hero Section -->
-    <section class="hero-section" id="heroSection">
-        <div class="hero-content">
-            <div class="floating-heart-icon">
-                <i class="fa-solid fa-heart"></i>
+    <!-- HERO SECTION -->
+    <section id="hero-section" class="relative min-h-screen flex flex-col items-center justify-center text-center px-4 overflow-hidden z-10 transition-opacity duration-1000">
+        <div class="glass-card p-6 sm:p-8 md:p-12 rounded-3xl max-w-lg w-full mx-auto animate-float border border-rose-500/30 relative my-auto">
+            <div class="absolute -top-6 left-1/2 transform -translate-x-1/2 bg-rose-600 text-white p-3 rounded-full shadow-lg glow-box animate-pulse-slow">
+                <i class="fa-solid fa-heart text-xl sm:text-2xl"></i>
             </div>
-            <h1 class="hero-title">حبيبه ❤️</h1>
-            <p class="hero-subtitle">او زي ما انا بحب ادلعك...</p>
-            <h2 class="hero-nickname">حبوبتي ❤️</h2>
-            <p class="hero-text">كل خطوة وكل لحظة معاكي بتخلي حياتي احلى واطعم بكتير يا روحي.</p>
-            <button class="enter-btn" id="enterBtn">
-                <span>ادخلي يا حبوبتي ❤️</span>
-                <i class="fa-solid fa-wand-magic-sparkles"></i>
+            
+            <h1 class="font-kufi text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3 mt-3 glow-text leading-tight">
+                لحبيبتي حبيبه ❤️
+            </h1>
+            
+            <p class="text-rose-300 text-base sm:text-lg font-semibold mb-3">
+                او زي ما انا بحب اقولك...<br>
+                <span class="text-rose-400 text-xl sm:text-2xl">حبوبتي ❤️</span>
+            </p>
+            
+            <p class="text-rose-200 text-sm sm:text-base md:text-lg mb-6 leading-relaxed font-light">
+                عملتلك حاجة صغيرة كده عشان انتي مش حد عادي بالنسبالي
+            </p>
+
+            <button onclick="enterWebsite()" class="relative group overflow-hidden rounded-full bg-gradient-to-r from-rose-600 to-pink-600 px-6 sm:px-8 py-3.5 text-white font-bold text-base sm:text-lg shadow-xl hover:shadow-rose-500/50 transition-all duration-300 transform active:scale-95 w-full">
+                <span class="relative flex items-center justify-center gap-2">
+                    <span>ادخلي يا حبوبتي ❤️</span>
+                    <i class="fa-solid fa-sparkles"></i>
+                </span>
             </button>
         </div>
     </section>
 
-    <!-- Main Content Sections -->
-    <main class="main-content" id="mainContent">
-        
-        <!-- Section 1: Memories & Feelings -->
-        <section class="love-card-section">
-            <div class="card-glass">
-                <div class="card-icon"><i class="fa-solid fa-face-smile-beam"></i></div>
-                <h3>حكايتنا سوا</h3>
-                <p>من اول يوم عرفتك فيه وانا حاسس ان الدنيا ضحكتلي. وجودك لوحده كفاية يخلي كل الايام تبتسم لي يا قمري.</p>
-            </div>
-        </section>
+    <!-- MAIN CONTENT CONTAINER -->
+    <div id="main-content" class="hidden opacity-0 transition-opacity duration-1000">
 
-        <!-- Section 2: Special Message -->
-        <section class="love-card-section">
-            <div class="card-glass">
-                <div class="card-icon"><i class="fa-solid fa-gift"></i></div>
-                <h3>احلى صدفة في عمري</h3>
-                <p>تعرفي ان ليكي غلاوة خاصة في قلبي مش ممكن وصفها؟ مهما الكل قالوا ومهما حكوا، انتي بتبقي في حتة تانية خالص.</p>
-            </div>
-        </section>
-
-        <!-- Section 3: Love Letter -->
-        <section class="love-card-section letter-section">
-            <div class="card-glass glowing-border">
-                <div class="card-icon"><i class="fa-solid fa-envelope-open-text"></i></div>
-                <h3>رسالة من قلبي ليكي</h3>
-                <p class="letter-body">
-                    يا حبوبتي، بكتب لك الكلمات دي وانا حاسس بكل حرف جواها. انتي مش بس حبيبتي، انتي الضحكة اللي بتوريني طريق الفرح، والروح الطاهرة اللي مالي علي الدنيا. اليكِ كل الحب وكل الاشتياق يا اغلى ما في حياتي.
+        <!-- LOVE INTRO SECTION -->
+        <section class="py-16 sm:py-20 px-4 max-w-3xl mx-auto text-center relative z-10">
+            <div class="glass-card p-6 sm:p-10 md:p-12 rounded-3xl relative overflow-hidden">
+                <h2 class="font-kufi text-2xl sm:text-3xl text-rose-300 mb-4 sm:mb-6">بصي يا حبيبه ❤️</h2>
+                <p class="text-base sm:text-lg md:text-xl text-rose-100 leading-loose font-normal">
+                    انتي عارفة انك غالية عندي قد ايه؟ أنا ممكن معرفش اقول كل اللي جوايا صح بس انتي عارفة اني بحبك. وجودك في حياتي فارق معايا اكتر مما تتخيلي، وكل يوم معاكي بيكدب أي خوف جوّايا وبيثبتلي إنك احلى حاجة حصلتلي يا حبوبتي.
                 </p>
             </div>
         </section>
 
-        <!-- Final Surprise Section -->
-        <section class="final-surprise-section">
-            <div class="final-card">
-                <h3>مفاجأة لكي انتي وحدك</h3>
-                <p>دوسي هنا عشان تشوفي حاجة بسيطة تعبر عن حبي ليكي.</p>
-                <button class="surprise-btn" id="surpriseBtn">
-                    دوسي هنا يا حبوبتي ❤️
-                </button>
-                <div class="surprise-message hidden" id="surpriseMessage">
-                    <h4>بحبك يا حبوبتي ❤️</h4>
-                    <p>ودي كانت حاجة صغيرة من قلبي ليكي، تفضل منورة حياتك زي ما انتي منورة دنيتي.</p>
+        <!-- WHY I LOVE YOU SECTION -->
+        <section class="py-12 sm:py-16 px-4 max-w-5xl mx-auto relative z-10">
+            <div class="text-center mb-10 sm:mb-12">
+                <span class="text-rose-400 text-xs sm:text-sm tracking-widest uppercase font-semibold">حاجات بحبها فيكي</span>
+                <h2 class="font-kufi text-2xl sm:text-3xl md:text-4xl font-bold text-white mt-2 glow-text">حاجات بحبها في حبوبتي ❤️</h2>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+                <div class="glass-card glass-card-hover p-6 rounded-2xl transition-all duration-300 group">
+                    <div class="w-12 h-12 bg-rose-500/20 rounded-xl flex items-center justify-center text-rose-400 text-xl mb-4"><i class="fa-solid fa-face-laugh-beam"></i></div>
+                    <h3 class="text-lg sm:text-xl font-bold text-white mb-2">عشان ضحكتك</h3>
+                    <p class="text-rose-200 text-sm leading-relaxed">ضحكتك دي بتنور طريقي وبتخلي الدنيا أبسط بكتير وبتنسيني أي تعب.</p>
+                </div>
+                <div class="glass-card glass-card-hover p-6 rounded-2xl transition-all duration-300 group">
+                    <div class="w-12 h-12 bg-rose-500/20 rounded-xl flex items-center justify-center text-rose-400 text-xl mb-4"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                    <h3 class="text-lg sm:text-xl font-bold text-white mb-2">عشان طريقتك</h3>
+                    <p class="text-rose-200 text-sm leading-relaxed">طريقتك في الكلام وفي الحنان، وفي خوفك عليا من أبسط حاجة يا روحي.</p>
+                </div>
+                <div class="glass-card glass-card-hover p-6 rounded-2xl transition-all duration-300 group">
+                    <div class="w-12 h-12 bg-rose-500/20 rounded-xl flex items-center justify-center text-rose-400 text-xl mb-4"><i class="fa-solid fa-comments"></i></div>
+                    <h3 class="text-lg sm:text-xl font-bold text-white mb-2">عشان كلامك</h3>
+                    <p class="text-rose-200 text-sm leading-relaxed">اللي بيقعد في عقلي وقلبي طول اليوم ومبزهقش منه ابداً مهما قعدنا نتكلم.</p>
                 </div>
             </div>
         </section>
 
-    </main>
+        <!-- INTERACTIVE HEART COUNTER -->
+        <section class="py-12 sm:py-16 px-4 max-w-xl mx-auto relative z-10 text-center">
+            <div class="glass-card p-6 sm:p-10 rounded-3xl">
+                <h2 class="font-kufi text-xl sm:text-2xl text-white mb-2">دوسي على القلب ده يا قمري ❤️</h2>
+                <p class="text-rose-300 text-xs sm:text-sm mb-6 sm:mb-8">كل ضغطة بتعبر عن نبضة حب لكي لحد 100 نبضة</p>
 
-    <!-- Premium Floating Music Player -->
-    <div class="music-player-floating" id="musicPlayer">
-        <audio id="bgAudio" src="assets/song.mp3" preload="auto" loop></audio>
-        
-        <div class="player-controls-row">
-            <button class="player-btn" id="playPauseBtn" aria-label="Play/Pause">
-                <i class="fa-solid fa-play" id="playPauseIcon"></i>
-            </button>
-            
-            <div class="song-info-box">
-                <span class="song-title">تسمحلي اهاديك - عمرو جابر</span>
-                <div class="equalizer" id="equalizer">
-                    <span></span><span></span><span></span><span></span>
+                <div class="flex flex-col items-center justify-center">
+                    <button onclick="incrementHeart()" class="w-32 h-32 sm:w-36 sm:h-36 rounded-full bg-gradient-to-br from-rose-600 via-pink-600 to-rose-700 flex items-center justify-center text-white text-4xl sm:text-5xl shadow-2xl active:scale-95 transition-transform duration-200 glow-box relative group">
+                        <i class="fa-solid fa-heart animate-pulse"></i>
+                        <span class="absolute -top-2 -right-2 bg-white text-rose-600 text-xs font-black px-3 py-1 rounded-full shadow-md border border-rose-200" id="heart-counter-badge">0</span>
+                    </button>
+                    
+                    <div class="mt-6 text-lg sm:text-xl font-bold text-white">
+                        العدد: <span id="heart-count" class="text-rose-400 font-black text-xl sm:text-2xl">0</span> نبضة ❤️
+                    </div>
+
+                    <div id="heart-msg-box" class="mt-4 p-4 rounded-xl bg-rose-950/50 border border-rose-500/30 text-rose-100 text-sm sm:text-base font-semibold min-h-[70px] flex items-center justify-center transition-all duration-300">
+                        أنا جاهز، ابدئي دوسي على القلب عشان تشوفي الكلام المتدرج لحد 100 ❤️
+                    </div>
                 </div>
             </div>
+        </section>
 
-            <button class="player-btn" id="muteBtn" aria-label="Mute/Unmute">
-                <i class="fa-solid fa-volume-high" id="muteIcon"></i>
-            </button>
-        </div>
+        <!-- LOVE LETTER SECTION -->
+        <section class="py-16 sm:py-20 px-4 max-w-2xl mx-auto relative z-10">
+            <div class="text-center mb-8 sm:mb-10">
+                <h2 class="font-kufi text-2xl sm:text-3xl md:text-4xl font-bold text-white glow-text">رسالة سرية لحبوبتي 💌</h2>
+            </div>
+            <div class="love-letter-paper p-6 sm:p-10 md:p-12 rounded-2xl relative">
+                <div class="absolute top-4 left-6 text-rose-400 font-kufi text-lg sm:text-xl">To My Love ✨</div>
+                <div class="mt-6 space-y-4 text-rose-950 text-base sm:text-lg leading-relaxed font-semibold">
+                    <p>يا حبوبتي،</p>
+                    <p>أنا حبيت أعملك الموقع ده عشان تفضلي فاكرة دايماً إنك غالية عندي أوي. بحب كلامنا، وبحب وجودك، وبحب هزارنا، وبحب حتى التفاصيل الصغيرة اللي بينا اللي بتعمل لون وطعم لحياتي.</p>
+                    <p>شكراً لأنك دخلتي حياتي وغيرتيها للأحسن، وشكراً لأنك دايماً جنبي ومعايا في كل خطوة يا روحي.</p>
+                    <p class="pt-4 text-rose-700 font-bold text-xl text-left font-kufi">حبك يا حبوبتي ❤️</p>
+                </div>
+            </div>
+        </section>
 
-        <div class="progress-bar-container" id="progressBarContainer">
-            <div class="progress-bar-fill" id="progressBarFill"></div>
-        </div>
+        <!-- SURPRISE SECTION -->
+        <section class="py-16 sm:py-20 px-4 max-w-xl mx-auto relative z-10 text-center">
+            <div class="glass-card p-6 sm:p-10 md:p-12 rounded-3xl glow-box border border-rose-500/50">
+                <h2 class="font-kufi text-2xl sm:text-3xl text-white mb-6">المفاجأة الكبيرة 🎁</h2>
+                <button onclick="triggerSurprise()" class="bg-gradient-to-r from-pink-600 via-rose-600 to-red-600 text-white font-bold py-3.5 sm:py-4 px-8 sm:px-10 rounded-full text-base sm:text-lg shadow-2xl active:scale-95 transition-transform glow-box w-full sm:w-auto">
+                    دوسي هنا يا حبوبتي ❤️
+                </button>
+                <div id="surprise-msg" class="hidden mt-8 space-y-4 animate-fade-in">
+                    <h3 class="font-kufi text-2xl sm:text-3xl md:text-4xl font-bold text-rose-400 glow-text">بحبك يا حبوبتي ❤️</h3>
+                    <p class="text-rose-200 text-sm sm:text-base leading-relaxed">مهما كتبت مش هعرف اوصفلك انتي غالية عندي قد ايه يا حبيبتي.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FINAL FOOTER -->
+        <footer class="py-16 px-4 text-center bg-black/80 relative z-10 border-t border-rose-950">
+            <div class="max-w-xl mx-auto space-y-4">
+                <p class="font-kufi text-lg sm:text-xl text-white">"ولو الدنيا كلها اتغيرت، هفضل برضه اختارك إنتي ❤️"</p>
+                <div class="text-2xl font-black font-kufi text-rose-500 pt-3 glow-text">حبيبه وحبوبتي ❤️‍🩹</div>
+            </div>
+        </footer>
     </div>
 
-    <!-- Custom JavaScript -->
-    <script src="assets/script.js"></script>
+    <script>
+        // Canvas Floating Particles
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        const particles = [];
+        for (let i = 0; i < 35; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: Math.random() * 3 + 1,
+                speedY: Math.random() * 0.5 + 0.2,
+                opacity: Math.random() * 0.5 + 0.2,
+                color: Math.random() > 0.5 ? '#f43f5e' : '#ec4899'
+            });
+        }
+        function drawParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                ctx.fillStyle = p.color;
+                ctx.globalAlpha = p.opacity;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+                p.y -= p.speedY;
+                if (p.y < 0) { p.y = canvas.height + 10; p.x = Math.random() * canvas.width; }
+            });
+            requestAnimationFrame(drawParticles);
+        }
+        drawParticles();
+
+        // Audio Handler
+        const audio = document.getElementById('bg-music');
+        let isPlaying = false;
+
+        function updateMusicButton(playing) {
+            const icon = document.getElementById('music-icon');
+            const text = document.getElementById('music-text');
+            const btn = document.getElementById('music-toggle');
+
+            isPlaying = playing;
+            icon.className = playing ? 'fa-solid fa-volume-high text-xs' : 'fa-solid fa-music text-xs';
+            text.innerText = playing ? 'إيقاف الأغنية' : 'تشغيل الأغنية';
+            btn.classList.toggle('bg-rose-600/30', playing);
+            btn.classList.toggle('border-rose-500', playing);
+        }
+
+        function startMusic() {
+            if (!audio.paused) return;
+            audio.play().then(() => updateMusicButton(true)).catch(error => {
+                updateMusicButton(false);
+                console.error('Audio play error:', error);
+                document.getElementById('music-text').innerText = 'تعذر تشغيل الأغنية';
+            });
+        }
+
+        function toggleMusic() {
+            if (audio.paused) {
+                startMusic();
+            } else {
+                audio.pause();
+                updateMusicButton(false);
+            }
+        }
+
+        // Enter Website Transition & Guaranteed Play Trigger
+        function enterWebsite() {
+            const hero = document.getElementById('hero-section');
+            const main = document.getElementById('main-content');
+
+            startMusic();
+
+            hero.style.opacity = '0';
+            setTimeout(() => {
+                hero.classList.add('hidden');
+                main.classList.remove('hidden');
+                setTimeout(() => { main.style.opacity = '1'; window.scrollTo({ top: 0, behavior: 'smooth' }); }, 50);
+            }, 800);
+        }
+
+        // Heart Counter
+        let heartClicks = 0;
+        function incrementHeart() {
+            if (heartClicks >= 100) return;
+            heartClicks++;
+            document.getElementById('heart-count').innerText = heartClicks;
+            document.getElementById('heart-counter-badge').innerText = heartClicks;
+
+            confetti({ particleCount: 12, spread: 40, origin: { y: 0.7 }, colors: ['#f43f5e', '#ec4899', '#ff80bf'] });
+
+            const msgBox = document.getElementById('heart-msg-box');
+            if (heartClicks === 3) msgBox.innerText = "بدأنا اهو.. كملي ضغطات يا حبوبتي وشوفي ايه اللي هيحصل! 😌";
+            else if (heartClicks === 10) msgBox.innerText = "ايه النشاط ده كله؟ شكلك ناوية تجيبي آخره معايا النهارده 😂❤️";
+            else if (heartClicks === 20) msgBox.innerText = "قلبي بينبض بسرعة كل ما تدوسي، إنتي بتعملي فيا ايه؟ 🥰";
+            else if (heartClicks === 35) msgBox.innerText = "قربنا نعدي التلت.. ولسه الجاي احلى وأجمد بكتير يا قمري ✨";
+            else if (heartClicks === 50) msgBox.innerText = "وصلنا نص المشوار! يعني نص قلبي بقى ملكك ومتثبت عندك خلاص 🤭❤️";
+            else if (heartClicks === 65) msgBox.innerText = "أنا مبزهقش.. ودوسي كمان وكمان، أنا اصلا قاعد عشانك انتي وبس! 😍";
+            else if (heartClicks === 80) msgBox.innerText = "خلاص قربنا.. اوعي تبطلي ضغط لحد ما نوصل لنهاية النبضات! 🏃‍♂️🔥";
+            else if (heartClicks === 95) msgBox.innerText = "5 ضغطات بس وتوصلي للختام.. اتحمسي شوية! 🎯";
+            else if (heartClicks === 100) {
+                msgBox.innerText = "خلاص كده.. 100 نبضة خلصوا، والكلمة الأخيرة: انتي روحي وكل دنيتي ومش هطلّعك من قلبي أبداً يا حبيبه ❤️";
+                confetti({ particleCount: 150, spread: 120, origin: { y: 0.6 }, colors: ['#f43f5e', '#ffffff', '#ec4899'] });
+            }
+        }
+
+        function triggerSurprise() {
+            document.getElementById('surprise-msg').classList.remove('hidden');
+            confetti({ particleCount: 150, spread: 120, origin: { y: 0.5 }, colors: ['#f43f5e', '#ffffff', '#ec4899'] });
+        }
+    </script>
 </body>
 </html>
